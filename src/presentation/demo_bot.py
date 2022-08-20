@@ -15,15 +15,16 @@ from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from datetime import date, timedelta
 import re
 
-bot_token = "5364674659:AAHdsuguCkMva00NYX0TCNXMiiJrBan4Zvc"
+bot_token = "5364674659:AAHdsuguCkMva00NYX0TCNXMiiJrBan4Zvc" 
 if not bot_token:
     exit("Error: no token provided")
 
 bot = Bot(token=bot_token)
-dp = Dispatcher(bot)
+dp = Dispatcher(bot, storage=MemoryStorage())
 logging.basicConfig(level=logging.INFO)
 
 
@@ -71,8 +72,10 @@ def inline_register_handlers_booking(dp: Dispatcher):
     dp.register_message_handler(state_03, state=videoState.state_3)
     dp.register_message_handler(state_04, state=videoState.state_4)
 
+def main():
+    inline_register_handlers_booking(dp)
+    executor.start_polling(dp, skip_updates=True)
 
 if __name__ == "__main__":
     # Запускаем бота и пропускаем все накопленые входящие
-    inline_register_handlers_booking(dp)
-    executor.start_polling(dp, skip_updates=True)
+    main()

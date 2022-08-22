@@ -133,9 +133,20 @@ async def print_day_bookings(message: types.Message):
             await message.answer("Введите дату в правильном формате!")
             return
         chosen_date = match[0]
+        db = DataBase()
         my_id = message['from']['id']
         # Здесь вытаскивается таблица по tg_id
         await message.answer(f"Вот ваши бронирования на {message.text}:")
+        aa = db.select_user_bookingDate(message.from_id, chosen_date)
+        lst = []
+        for i in aa:
+            lst.append(list(i)[0])
+        books = ', \n'.join(map(str, lst))
+        if not books:
+            books = 'У вас нет бронирований! Или мы их не нашли.\nПредлагаем это исправить. 🙂'
+    #keyboard = get_keyboard(books)
+        await message.answer(books, reply_markup=main_menu_keyboard())
+        return
         messi = "w"
         for i in boo:
             if (i['date'] == message.text and i['user_id'] == str(my_id)):

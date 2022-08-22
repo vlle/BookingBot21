@@ -4,6 +4,7 @@ from time import sleep, time
 import asyncio
 from pickle import FALSE, TRUE
 from typing import Type
+from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.utils.exceptions import BotBlocked
 from aiogram.utils.callback_data import CallbackData
@@ -69,8 +70,11 @@ async def all_my_bookings(message: types.Message):
     lst = []
     for i in aa:
         lst.append(list(i)[0])
-    keyboard = get_keyboard(lst)
-    await message.answer(lst)
+    books = ', \n'.join(map(str, lst))
+    if not books:
+        books = 'У вас нет бронирований! Скорее выбирайте свой досуг. 🙂'
+    #keyboard = get_keyboard(books)
+    await message.answer(books, reply_markup=main_menu_keyboard())
     return
     if mes == 'w':
         await message.answer("Бронирований не найдено",
@@ -83,6 +87,7 @@ async def all_my_bookings(message: types.Message):
         await message.answer("Что хотите сделать?",
                              reply_markup=keyboard)
         await MyBook.ret_main_menu.set()
+    await state.finish()
 
 
 async def cancel_booking(message: types.Message):

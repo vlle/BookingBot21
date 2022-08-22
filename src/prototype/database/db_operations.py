@@ -2,10 +2,12 @@ from multiprocessing import Event
 from sqlalchemy import select
 from sqlalchemy import insert
 from sqlalchemy import update
+from sqlalchemy import delete
 from database.db import engine
 from database.db import User
 from database.db import Booking
 from database.db import Object
+
 
 
 class DataBase:
@@ -192,6 +194,12 @@ class DataBase:
         res = conn.execute(sel)
 
         return res
+
+    # функция удаления записи по айди
+    def delete_booking(book_id):
+        conn = engine.connect()
+        stmt = delete(Booking).where(Booking.id == book_id)
+        res = conn.execute(stmt)
 
     # type по campus и tg_id. Связь с User нужна
     # функция получения всех start_time и end_time по id object и date

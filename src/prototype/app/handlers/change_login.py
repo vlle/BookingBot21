@@ -75,7 +75,12 @@ async def update_login_db(message: types.Message):
     new_login = message.text
     db = DataBase()
     db.update_login(new_login, message.from_id)
-    msg = "Успешно изменено."
+    name = []
+    string = db.select_login_by_tg_id(message.from_id)
+    for i in string:
+        name.append(list(i)[0])
+    login = ', \n'.join(map(str, name))
+    msg = f"Успешно изменено, {login}."
     await message.answer(msg, reply_markup=return_main_keyboard())
     await ChangeState.change.set()
     return

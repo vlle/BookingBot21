@@ -72,7 +72,7 @@ async def all_my_bookings(message: types.Message):
         lst.append(list(i)[0])
     books = ', \n'.join(map(str, lst))
     if not books:
-        books = 'У вас нет бронирований! Скорее выбирайте свой досуг. 🙂'
+        books = 'У вас нет бронирований! Предлагаем это исправить. 🙂'
     #keyboard = get_keyboard(books)
     await message.answer(books, reply_markup=main_menu_keyboard())
     return
@@ -123,14 +123,14 @@ async def all_my_bookings_day(message: types.Message):
 async def print_day_bookings(message: types.Message):
     match = re.search(r'[0-9]{4}-[0-9]{2}-[0-9]{2}', message['text'])
     if not match:
-        await message.answer("введите дату в правильном формате!")
+        await message.answer("Введите дату в правильном формате!")
         return
     else:
         listmatch = match[0].split('-')
         if (int(listmatch[0]) < 2022 or
                 int(listmatch[0]) > 3022 or int(listmatch[1]) > 12
                 or int(listmatch[2]) > 31):
-            await message.answer("введите дату в правильном формате!")
+            await message.answer("Введите дату в правильном формате!")
             return
         chosen_date = match[0]
         my_id = message['from']['id']
@@ -146,7 +146,7 @@ async def print_day_bookings(message: types.Message):
                 await message.answer(messi)
                 sleep(0.5)
         if messi == "w":
-            await message.answer("бронирований на эту дату не найдено.",
+            await message.answer("Бронирований на эту дату не найдено.",
                                  reply_markup=return_main_keyboard())
             await MyBook.ret_main_menu.set()
 

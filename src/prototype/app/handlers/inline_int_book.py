@@ -213,7 +213,7 @@ async def date_chosen(call: types.CallbackQuery, callback_data: dict):
 async def time_chosen(call: types.CallbackQuery, callback_data: dict):
     action = callback_data["action"]
     if action == 'another':
-        await call.message.edit_text('введите дату в формате ГГГГ-ММ-ДД:')
+        await call.message.edit_text('Введите дату в формате ГГГГ-ММ-ДД:')
         await Booking.waiting_ex_time_set.set()
         await call.answer()
     else:
@@ -232,14 +232,14 @@ async def time_chosen(call: types.CallbackQuery, callback_data: dict):
 async def ex_date_chosen_set(message: types.Message):
     match = re.search(r'[0-9]{4}-[0-9]{2}-[0-9]{2}', message.text)
     if not match:
-        await message.answer("введите дату в правильном формате!")
+        await message.answer("Введите дату в правильном формате!")
         return
     else:
         listmatch = match[0].split('-')
         if (int(listmatch[0]) < 2022 or
                 int(listmatch[0]) > 3022 or int(listmatch[1]) > 12 or
                 int(listmatch[2]) > 31):
-            await message.answer("введите дату в правильном формате!")
+            await message.answer("Введите дату в правильном формате!")
             return
         chosen['date'] = match.group(0)
         userBooking[message.from_id].add_date(chosen['date'])
@@ -252,7 +252,7 @@ async def check_time(message: types.Message):
     if (not match or 0 > int(message.text.split('-')[0]) or
             int(message.text.split('-')[0]) >= int(message.text.split('-')[1])
             or int(message.text.split('-')[1]) > 24):
-        await message.answer("введите время в правильном формате!")
+        await message.answer("Введите время в правильном формате!")
         return
     else:
         time = match[0].split('-')

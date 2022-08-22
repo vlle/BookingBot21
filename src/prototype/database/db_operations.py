@@ -87,6 +87,23 @@ class DataBase:
         res = conn.execute(sel)
         return res
 
+    def select_user_bookingDate(self, tg_id, date):
+        conn = engine.connect()
+        sel = select(User.id).select_from(User).where(User.tg_id == tg_id)
+        res = conn.execute(sel)
+        id_log = res.first()[0]
+        sel = select(Object.name).where(
+            Object.id.in_(
+                select(Booking.id_obj).where(
+                    Booking.owner_id == id_log,
+                    Booking.date == date 
+                    )
+            )
+        )
+        res = conn.execute(sel)
+
+        return res
+
     def select_user_bookingName(self, tg_id):
         conn = engine.connect()
         sel = select(User.id).select_from(User).where(User.tg_id == tg_id)
@@ -171,6 +188,19 @@ class DataBase:
         return res
 
     # функция получения всех start_time и end_time по id object и date
+    def select_time_by_date(id, date):
+        conn = engine.connect()
+        sel = select(
+            Booking.start_time,
+            Booking.end_time
+        ).where(
+            Booking.id_obj == id,
+            Booking.date == date
+        )
+        res = conn.execute(sel)
+
+        return sel
+
     def select_time_by_id_and_date(id, date):
         conn = engine.connect()
         sel = select(
@@ -196,7 +226,7 @@ class DataBase:
         return res
 
     # функция удаления записи по айди
-    def delete_booking(book_id):
+    def delete_booking(self, book_id):
         conn = engine.connect()
         stmt = delete(Booking).where(Booking.id == book_id)
         res = conn.execute(stmt)

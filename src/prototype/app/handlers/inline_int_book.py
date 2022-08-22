@@ -275,7 +275,7 @@ async def check_time(message: types.Message):
                f'<b>Тип</b>: {userBooking[message.from_id].type}\n' +
                f'<b>Объект:</b> {userBooking[message.from_id].object}\n' +
                f'<b>Дата: </b>{userBooking[message.from_id].date}\n' +
-               f'<b>Время:</b> {userBooking[message.from_id].start_time}' +
+               f'<b>Время:</b> {userBooking[message.from_id].start_time}-' +
                f'{userBooking[message.from_id].end_time}\n\n')
         await message.answer(msg, reply_markup=keyboard)
         await Booking.insert_confirm.set()

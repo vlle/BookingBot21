@@ -25,6 +25,7 @@ book = []
 
 async def set_commands(bot: Bot):
     commands = [
+        BotCommand(command="/start", description="Главное меню"),
         BotCommand(command="/cancel", description="Отменить текущее действие"),
         BotCommand(command="/change_login", description="Изменить логин"),
 

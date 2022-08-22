@@ -34,6 +34,7 @@ users_accs[0]['role'] = 1
 
 class Mainmenu(StatesGroup):
     waiting_login = State()
+    vote_us = State()
     main_menu = State()
 
 
@@ -82,6 +83,13 @@ async def login_user(message: types.Message, state: FSMContext):
     await state.finish()
 
 
+async def print_vote(message: types.Message, state: FSMContext):
+    await message.answer("Упс, а функция-то в разработке.\nНу что-ж. Можете понажимать на другие кнопки.\n\n\nи проголосовать за нас.. 😁")
+    await state.finish()
+
 def main_menu_start(dp: Dispatcher):
     dp.register_message_handler(registration, commands="start", state="*")
     dp.register_message_handler(login_user, state=Mainmenu.waiting_login)
+    dp.register_message_handler(print_vote, 
+            Text(equals="Посмотреть бронирования объекта"),
+            state="*")

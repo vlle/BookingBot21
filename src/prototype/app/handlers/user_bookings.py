@@ -144,22 +144,8 @@ async def print_day_bookings(message: types.Message):
         books = ', \n'.join(map(str, lst))
         if not books:
             books = 'У вас нет бронирований! Или мы их не нашли.\nПредлагаем это исправить. 🙂'
-    #keyboard = get_keyboard(books)
         await message.answer(books, reply_markup=main_menu_keyboard())
-        return
-        messi = "w"
-        for i in boo:
-            if (i['date'] == message.text and i['user_id'] == str(my_id)):
-                messi = ''
-                for key in i:
-                    if key != 'user_id':
-                        messi += key+': ' + str(i[key]) + '\n'
-                await message.answer(messi)
-                sleep(0.5)
-        if messi == "w":
-            await message.answer("Бронирований на эту дату не найдено.",
-                                 reply_markup=return_main_keyboard())
-            await MyBook.ret_main_menu.set()
+        await MyBook.ret_main_menu.set()
 
 
 async def return_main_menu(message: types.message, state: FSMContext):

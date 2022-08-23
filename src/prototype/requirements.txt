@@ -1,5 +1,0 @@
-aiogram
-pycodestyle
-asyncio
-configparser
-sqlalchemy
